@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -43,7 +44,20 @@ class CalendarPage extends StatelessWidget {
             // markerBuilder（マーカー付き日付）
             // todayBuilder（今日の日付）
 
-            // 土（青）日（赤）に色をつける
+            // 曜日の土（青）日（赤）に色をつける
+            dowBuilder: (BuildContext context, DateTime day) {
+              final dowText = DateFormat.E('ja').format(day);
+              return Center(
+                child: Text(
+                  dowText,
+                  style: TextStyle(
+                    color: _textColor(day),
+                  ),
+                ),
+              );
+            },
+
+            // 日付の土（青）日（赤）に色をつける
             defaultBuilder:
                 (BuildContext context, DateTime day, DateTime focusedDay) {
               return Center(
