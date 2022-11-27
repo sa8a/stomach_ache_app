@@ -35,6 +35,23 @@ class CalendarPage extends StatelessWidget {
             titleCentered: true,
           ),
 
+          // カスタマイズ用のスタイル
+          calendarStyle: CalendarStyle(
+            // defaultDecoration: BoxDecoration(),
+            // outsideDecoration: BoxDecoration(),
+            // weekendDecoration: BoxDecoration(),
+
+            // 今日の日付のスタイル
+            todayDecoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey[200],
+            ),
+            todayTextStyle: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
           // カスタマイズ用の関数
           calendarBuilders: CalendarBuilders(
             // dowBuilderまたはdaysOfWeekBuilder（曜日）
