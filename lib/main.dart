@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:stomach_ache_app/screens/calendar_page.dart';
 import 'package:stomach_ache_app/screens/setting_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  initializeDateFormatting('ja').then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

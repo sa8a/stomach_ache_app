@@ -12,6 +12,9 @@ class CalendarPage extends StatelessWidget {
       ),
       body: Center(
         child: TableCalendar(
+          // 曜日の日本語対応
+          locale: 'ja_JP',
+
           firstDay: DateTime(2022, 11, 27),
           lastDay: DateTime(2040, 12, 31),
           focusedDay: DateTime.now(),
