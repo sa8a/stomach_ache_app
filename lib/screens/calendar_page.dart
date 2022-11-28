@@ -69,7 +69,7 @@ class _CalendarPageState extends State<CalendarPage> {
             // 今日の日付のスタイル
             todayDecoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.grey[200],
+              color: Colors.teal[100],
             ),
             todayTextStyle: const TextStyle(
               fontSize: 18,
@@ -120,7 +120,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   day.day.toString(),
                   style: TextStyle(
                     color: _textColor(day),
-                    fontSize: 21,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
