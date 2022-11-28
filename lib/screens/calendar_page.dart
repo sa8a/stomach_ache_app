@@ -43,13 +43,12 @@ class _CalendarPageState extends State<CalendarPage> {
             return isSameDay(_selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
-            if (!isSameDay(selectedDay, selectedDay)) {
+            if (!isSameDay(_selectedDay, selectedDay)) {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
               });
             }
-            print(selectedDay);
           },
 
           // 曜日の日本語対応
