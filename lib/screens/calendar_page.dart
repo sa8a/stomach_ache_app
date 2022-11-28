@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
 
+  @override
+  State<CalendarPage> createState() => _CalendarPageState();
+}
+
+class _CalendarPageState extends State<CalendarPage> {
   // 土（青）日（赤）に色をつける関数
   Color _textColor(DateTime day) {
     const _defaultTextColor = Colors.black87;
@@ -18,6 +23,9 @@ class CalendarPage extends StatelessWidget {
     return _defaultTextColor;
   }
 
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +34,24 @@ class CalendarPage extends StatelessWidget {
       ),
       body: Center(
         child: TableCalendar(
+          // 基本設定
+          firstDay: DateTime(2022, 1, 1),
+          lastDay: DateTime(2040, 12, 31),
+          focusedDay: _focusedDay,
+
+          selectedDayPredicate: (day) {
+            return isSameDay(_selectedDay, day);
+          },
+          onDaySelected: (selectedDay, focusedDay) {
+            if (!isSameDay(selectedDay, selectedDay)) {
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+            }
+            print(selectedDay);
+          },
+
           // 曜日の日本語対応
           locale: 'ja_JP',
 
@@ -86,11 +112,22 @@ class CalendarPage extends StatelessWidget {
                 ),
               );
             },
-          ),
 
-          firstDay: DateTime(2022, 11, 27),
-          lastDay: DateTime(2040, 12, 31),
-          focusedDay: DateTime.now(),
+            // 選択した日付のスタイル
+            selectedBuilder:
+                (BuildContext context, DateTime day, DateTime focusedDay) {
+              return Center(
+                child: Text(
+                  day.day.toString(),
+                  style: TextStyle(
+                    color: _textColor(day),
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
