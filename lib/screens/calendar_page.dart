@@ -27,9 +27,10 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  // イベントリスト
+  // カレンダーのイベントリスト
   Map<DateTime, List> _eventsList = {};
 
+  // DateTime型から20210930の8桁のint型へ変換
   int getHashCode(DateTime key) {
     return key.day * 1000000 + key.month * 10000 + key.year;
   }
@@ -38,7 +39,8 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
-    //サンプルのイベントリスト
+
+    // イベントのサンプルリスト
     _eventsList = {
       DateTime.now().subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
       DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
@@ -73,6 +75,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    // TableCalendarでカレンダーに読み込むイベントをMapで定義した場合、
+    // LinkedHashMapを使用することを推奨されている。
     final _events = LinkedHashMap<DateTime, List>(
       equals: isSameDay,
       hashCode: getHashCode,
@@ -92,6 +96,8 @@ class _CalendarPageState extends State<CalendarPage> {
           firstDay: DateTime(2022, 1, 1),
           lastDay: DateTime(2040, 12, 31),
           focusedDay: _focusedDay,
+
+          // カレンダーのイベント読み込み
           eventLoader: getEventForDay,
 
           selectedDayPredicate: (day) {
@@ -187,6 +193,8 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ),
       ),
+
+      // カレンダーのイベント作成用ボタン（あとでカスタマイズ）
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
