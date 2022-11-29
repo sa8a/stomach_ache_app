@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -11,11 +12,14 @@ class SettingPage extends StatelessWidget {
       ),
       body: Center(
         child: ListView(
-          children: const [
+          children: [
             ListTile(
-              leading: Icon(Icons.share),
-              title: Text('このアプリをシェア'),
-              trailing: Icon(Icons.keyboard_arrow_right_rounded),
+              leading: const Icon(Icons.share),
+              title: const Text('このアプリをシェア'),
+              trailing: const Icon(Icons.keyboard_arrow_right_rounded),
+              onTap: () {
+                Share.share('共有');
+              },
             ),
           ],
         ),
