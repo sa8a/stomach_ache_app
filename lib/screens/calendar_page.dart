@@ -82,7 +82,7 @@ class _CalendarPageState extends State<CalendarPage> {
       hashCode: getHashCode,
     )..addAll(_eventsList);
 
-    List getEventForDay(DateTime day) {
+    List _getEventForDay(DateTime day) {
       return _events[day] ?? [];
     }
 
@@ -91,106 +91,119 @@ class _CalendarPageState extends State<CalendarPage> {
         title: const Text('腹痛管理'),
       ),
       body: Center(
-        child: TableCalendar(
-          // 基本設定
-          firstDay: DateTime(2022, 1, 1),
-          lastDay: DateTime(2040, 12, 31),
-          focusedDay: _focusedDay,
+        child: Column(
+          children: [
+            TableCalendar(
+              // 基本設定
+              firstDay: DateTime(2022, 1, 1),
+              lastDay: DateTime(2040, 12, 31),
+              focusedDay: _focusedDay,
 
-          // カレンダーのイベント読み込み
-          eventLoader: getEventForDay,
+              // カレンダーのイベント読み込み
+              eventLoader: _getEventForDay,
 
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: (selectedDay, focusedDay) {
-            if (!isSameDay(_selectedDay, selectedDay)) {
-              setState(() {
-                _selectedDay = selectedDay;
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                if (!isSameDay(_selectedDay, selectedDay)) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+                  _getEventForDay(selectedDay);
+                }
+              },
+              onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
-              });
-            }
-          },
-          onPageChanged: (focusedDay) {
-            _focusedDay = focusedDay;
-          },
+              },
 
-          // 曜日の日本語対応
-          locale: 'ja_JP',
+              // 曜日の日本語対応
+              locale: 'ja_JP',
 
-          // フォーマットボタン表示を消す
-          headerStyle: const HeaderStyle(
-            formatButtonVisible: false,
-            titleCentered: true,
-          ),
+              // フォーマットボタン表示を消す
+              headerStyle: const HeaderStyle(
+                formatButtonVisible: false,
+                titleCentered: true,
+              ),
 
-          // カスタマイズ用のスタイル
-          calendarStyle: CalendarStyle(
-            // defaultDecoration: BoxDecoration(),
-            // outsideDecoration: BoxDecoration(),
-            // weekendDecoration: BoxDecoration(),
+              // カスタマイズ用のスタイル
+              calendarStyle: CalendarStyle(
+                // defaultDecoration: BoxDecoration(),
+                // outsideDecoration: BoxDecoration(),
+                // weekendDecoration: BoxDecoration(),
 
-            // 今日の日付のスタイル
-            todayDecoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.teal[100],
+                // 今日の日付のスタイル
+                todayDecoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.teal[100],
+                ),
+                todayTextStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              // カスタマイズ用の関数
+              calendarBuilders: CalendarBuilders(
+                // dowBuilderまたはdaysOfWeekBuilder（曜日）
+                // defaultBuilder（日付）
+                // disabledBuilder（先月、来月の日付）
+                // selectedBuilder（選択中の日付）
+                // markerBuilder（マーカー付き日付）
+                // todayBuilder（今日の日付）
+
+                // 曜日の土（青）日（赤）に色をつける
+                dowBuilder: (BuildContext context, DateTime day) {
+                  final dowText = DateFormat.E('ja').format(day);
+                  return Center(
+                    child: Text(
+                      dowText,
+                      style: TextStyle(
+                        color: _textColor(day),
+                      ),
+                    ),
+                  );
+                },
+
+                // 日付の土（青）日（赤）に色をつける
+                defaultBuilder:
+                    (BuildContext context, DateTime day, DateTime focusedDay) {
+                  return Center(
+                    child: Text(
+                      day.day.toString(),
+                      style: TextStyle(
+                        color: _textColor(day),
+                      ),
+                    ),
+                  );
+                },
+
+                // 選択した日付のスタイル
+                selectedBuilder:
+                    (BuildContext context, DateTime day, DateTime focusedDay) {
+                  return Center(
+                    child: Text(
+                      day.day.toString(),
+                      style: TextStyle(
+                        color: _textColor(day),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-            todayTextStyle: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          // カスタマイズ用の関数
-          calendarBuilders: CalendarBuilders(
-            // dowBuilderまたはdaysOfWeekBuilder（曜日）
-            // defaultBuilder（日付）
-            // disabledBuilder（先月、来月の日付）
-            // selectedBuilder（選択中の日付）
-            // markerBuilder（マーカー付き日付）
-            // todayBuilder（今日の日付）
-
-            // 曜日の土（青）日（赤）に色をつける
-            dowBuilder: (BuildContext context, DateTime day) {
-              final dowText = DateFormat.E('ja').format(day);
-              return Center(
-                child: Text(
-                  dowText,
-                  style: TextStyle(
-                    color: _textColor(day),
-                  ),
-                ),
-              );
-            },
-
-            // 日付の土（青）日（赤）に色をつける
-            defaultBuilder:
-                (BuildContext context, DateTime day, DateTime focusedDay) {
-              return Center(
-                child: Text(
-                  day.day.toString(),
-                  style: TextStyle(
-                    color: _textColor(day),
-                  ),
-                ),
-              );
-            },
-
-            // 選択した日付のスタイル
-            selectedBuilder:
-                (BuildContext context, DateTime day, DateTime focusedDay) {
-              return Center(
-                child: Text(
-                  day.day.toString(),
-                  style: TextStyle(
-                    color: _textColor(day),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              );
-            },
-          ),
+            ListView(
+              shrinkWrap: true,
+              children: _getEventForDay(_selectedDay!)
+                  .map((event) => ListTile(
+                        title: Text(event.toString()),
+                      ))
+                  .toList(),
+            )
+          ],
         ),
       ),
 
