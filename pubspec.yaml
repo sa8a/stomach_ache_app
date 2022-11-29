@@ -7,6 +7,7 @@ environment:
 dependencies:
   table_calendar: ^3.0.8
   intl: ^0.17.0
+  flutter_riverpod: ^2.1.1
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
