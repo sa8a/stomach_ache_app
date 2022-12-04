@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:stomach_ache_app/screens/calendar_page.dart';
 import 'package:stomach_ache_app/screens/setting_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  initializeDateFormatting('ja').then((_) => runApp(const MyApp()));
+  initializeDateFormatting('ja').then(
+    (_) => runApp(
+      // riverpod : プロバイダースコープでアプリを囲む
+      const ProviderScope(
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
