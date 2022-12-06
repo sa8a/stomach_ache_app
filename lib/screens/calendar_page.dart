@@ -2,88 +2,55 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:stomach_ache_app/screens/calender_add_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stomach_ache_app/model/calendar.dart';
 
-class CalendarPage extends StatefulWidget {
+class CalendarPage extends ConsumerStatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
 
   @override
-  State<CalendarPage> createState() => _CalendarPageState();
+  CalendarPageState createState() => CalendarPageState();
 }
 
-class _CalendarPageState extends State<CalendarPage> {
-  // 土（青）日（赤）に色をつける関数
-  Color _textColor(DateTime day) {
-    const _defaultTextColor = Colors.black87;
-
-    if (day.weekday == DateTime.sunday) {
-      return Colors.red;
-    }
-    if (day.weekday == DateTime.saturday) {
-      return Colors.blue[600]!;
-    }
-    return _defaultTextColor;
-  }
-
+class CalendarPageState extends ConsumerState<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-
-  // カレンダーのイベントリスト
-  Map<DateTime, List> _eventsList = {};
-
-  // DateTime型から20210930の8桁のint型へ変換
-  int getHashCode(DateTime key) {
-    return key.day * 1000000 + key.month * 10000 + key.year;
-  }
 
   @override
   void initState() {
     super.initState();
+    //  `ref` は StatefulWidget のすべてのライフサイクルメソッド内で使用可能です。
+    // 例）ref.read(counterProvider);
+
     _selectedDay = _focusedDay;
 
-    // イベントのサンプルリスト
-    _eventsList = {
-      DateTime.now().subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-      DateTime.now().add(Duration(days: 1)): [
-        'Event A8',
-        'Event B8',
-        'Event C8',
-        'Event D8'
-      ],
-      DateTime.now().add(Duration(days: 3)):
-          Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-      DateTime.now().add(Duration(days: 7)): [
-        'Event A10',
-        'Event B10',
-        'Event C10'
-      ],
-      DateTime.now().add(Duration(days: 11)): ['Event A11', 'Event B11'],
-      DateTime.now().add(Duration(days: 17)): [
-        'Event A12',
-        'Event B12',
-        'Event C12',
-        'Event D12'
-      ],
-      DateTime.now().add(Duration(days: 22)): ['Event A13', 'Event B13'],
-      DateTime.now().add(Duration(days: 26)): [
-        'Event A14',
-        'Event B14',
-        'Event C14'
-      ],
-    };
+    // エラーコード
+    // ref.watch(calendarProvider) = {
+    //   DateTime.now().subtract(const Duration(days: 2)): ['Event A6', 'Event B6'],
+    //   DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
+    // };
   }
 
   @override
   Widget build(BuildContext context) {
+    // StateNotifierProviderを読み取る。watchを使用しているので、
+    // state（状態）であるcalendarリストが更新されると、buildメソッドが再実行されて画面が更新される
+    final calendar = ref.watch(calendarProvider);
+
+    // CalendarNotifier を使用する場合は `.notifier` を付けてProviderを読み取る
+    final notifier = ref.watch(calendarProvider.notifier);
+
     // TableCalendarでカレンダーに読み込むイベントをMapで定義した場合、
     // LinkedHashMapを使用することを推奨されている。
-    final _events = LinkedHashMap<DateTime, List>(
+    final events = LinkedHashMap<DateTime, List>(
       equals: isSameDay,
-      hashCode: getHashCode,
-    )..addAll(_eventsList);
+      // hashCode: getHashCode,
+      hashCode: notifier.getHashCode,
+    )..addAll(calendar);
 
-    List _getEventForDay(DateTime day) {
-      return _events[day] ?? [];
+    List getEventForDay(DateTime day) {
+      return events[day] ?? [];
     }
 
     return Scaffold(
@@ -96,11 +63,11 @@ class _CalendarPageState extends State<CalendarPage> {
             TableCalendar(
               // 基本設定
               firstDay: DateTime(2022, 1, 1),
-              lastDay: DateTime(2040, 12, 31),
+              lastDay: DateTime(2100, 12, 31),
               focusedDay: _focusedDay,
 
               // カレンダーのイベント読み込み
-              eventLoader: _getEventForDay,
+              eventLoader: getEventForDay,
 
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
@@ -111,7 +78,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
                   });
-                  _getEventForDay(selectedDay);
+                  getEventForDay(selectedDay);
                 }
               },
               onPageChanged: (focusedDay) {
@@ -160,7 +127,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     child: Text(
                       dowText,
                       style: TextStyle(
-                        color: _textColor(day),
+                        color: notifier.textColor(day),
                       ),
                     ),
                   );
@@ -173,7 +140,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     child: Text(
                       day.day.toString(),
                       style: TextStyle(
-                        color: _textColor(day),
+                        color: notifier.textColor(day),
                       ),
                     ),
                   );
@@ -186,7 +153,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     child: Text(
                       day.day.toString(),
                       style: TextStyle(
-                        color: _textColor(day),
+                        color: notifier.textColor(day),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -197,7 +164,7 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
             ListView(
               shrinkWrap: true,
-              children: _getEventForDay(_selectedDay!)
+              children: getEventForDay(_selectedDay!)
                   .map((event) => ListTile(
                         title: Text(event.toString()),
                       ))
@@ -213,7 +180,7 @@ class _CalendarPageState extends State<CalendarPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const CalendarPage(),
+              builder: (context) => const CalendarAddPage(),
             ),
           );
         },
