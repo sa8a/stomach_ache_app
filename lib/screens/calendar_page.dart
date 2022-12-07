@@ -36,10 +36,10 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
   Widget build(BuildContext context) {
     // StateNotifierProviderを読み取る。watchを使用しているので、
     // state（状態）であるcalendarリストが更新されると、buildメソッドが再実行されて画面が更新される
-    final calendar = ref.watch(calendarProvider);
+    final calendar = ref.watch(calendarNotifierProvider);
 
     // CalendarNotifier を使用する場合は `.notifier` を付けてProviderを読み取る
-    final notifier = ref.watch(calendarProvider.notifier);
+    final notifier = ref.watch(calendarNotifierProvider.notifier);
 
     // TableCalendarでカレンダーに読み込むイベントをMapで定義した場合、
     // LinkedHashMapを使用することを推奨されている。

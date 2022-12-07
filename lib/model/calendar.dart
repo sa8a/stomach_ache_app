@@ -5,30 +5,30 @@ class Calendar {
   const Calendar({
     required this.focusedDay,
     required this.selectedDay,
-    required this.status,
-    required this.memo,
+    // required this.status,
+    // required this.memo,
   });
 
   // イミュータブルなクラスのプロパティはすべて `final` にする
   // final DateTime focusedDay = DateTime.now();
   final DateTime focusedDay;
-  final DateTime? selectedDay;
-  final String status;
-  final String memo;
+  final DateTime selectedDay;
+  // final String status;
+  // final String memo;
 
   // Calendar はイミュータブルであり、内容を直接変更できないためコピーを作る必要がある
   // これはオブジェクトの各プロパティの内容をコピーして新たな Calendar を返すメソッド
   Calendar copyWith({
     DateTime? focusedDay,
     DateTime? selectedDay,
-    String? status,
-    String? memo,
+    // String? status,
+    // String? memo,
   }) {
     return Calendar(
       focusedDay: focusedDay ?? this.focusedDay,
       selectedDay: selectedDay ?? this.selectedDay,
-      status: status ?? this.status,
-      memo: memo ?? this.memo,
+      // status: status ?? this.status,
+      // memo: memo ?? this.memo,
     );
   }
 }
@@ -65,7 +65,7 @@ class CalendarNotifier extends StateNotifier<Map<DateTime, List>> {
 
 // 最後に CalendarNotifier のインスタンスを値に持つ StateNotifierProvider を作成し、
 // UI 側から calendar リストを操作することを可能に。
-final calendarProvider =
+final calendarNotifierProvider =
     StateNotifierProvider<CalendarNotifier, Map<DateTime, List>>((ref) {
   return CalendarNotifier();
 });
