@@ -14,44 +14,26 @@ class CalendarPage extends ConsumerStatefulWidget {
 }
 
 class CalendarPageState extends ConsumerState<CalendarPage> {
-  // DateTime _focusedDay = DateTime.now();
-  // DateTime? _selectedDay;
-
   @override
   void initState() {
     super.initState();
-    //  `ref` は StatefulWidget のすべてのライフサイクルメソッド内で使用可能です。
-    // 例）ref.read(counterProvider);
-
-    // _selectedDay = _focusedDay;
-
-    // エラーコード
-    // ref.watch(calendarProvider) = {
-    //   DateTime.now().subtract(const Duration(days: 2)): ['Event A6', 'Event B6'],
-    //   DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-    // };
+    // selectedDay = focusedDay;
   }
 
   @override
   Widget build(BuildContext context) {
-    // StateNotifierProviderを読み取る。watchを使用しているので、
-    // state（状態）であるcalendarリストが更新されると、buildメソッドが再実行されて画面が更新される
-    final calendar = ref.watch(calendarNotifierProvider);
+    // Providerを読み取る。watchを使用しているので、
+    // `Calendar` の状態が更新されると、buildメソッドが再実行され、画面が更新される
+    final calendar = ref.watch(calendarProvider);
 
-    // CalendarNotifier を使用する場合は `.notifier` を付けてProviderを読み取る
-    final notifier = ref.watch(calendarNotifierProvider.notifier);
-
-    // notifier.focusedDay = DateTime.now();
-    // notifier.selectedDay = notifier.focusedDay;
-
-    notifier.initState();
+    calendar.initState();
 
     // TableCalendarでカレンダーに読み込むイベントをMapで定義した場合、
     // LinkedHashMapを使用することを推奨されている。
     final events = LinkedHashMap<DateTime, List>(
       equals: isSameDay,
-      hashCode: notifier.getHashCode,
-    )..addAll(calendar);
+      hashCode: calendar.getHashCode,
+    )..addAll(calendar.eventsList);
 
     List getEventForDay(DateTime day) {
       return events[day] ?? [];
@@ -68,25 +50,25 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
               // 基本設定
               firstDay: DateTime(2022, 1, 1),
               lastDay: DateTime(2100, 12, 31),
-              focusedDay: notifier.focusedDay,
+              focusedDay: calendar.focusedDay,
 
               // カレンダーのイベント読み込み
               eventLoader: getEventForDay,
 
               selectedDayPredicate: (day) {
-                return isSameDay(notifier.selectedDay, day);
+                return isSameDay(calendar.selectedDay, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
-                if (!isSameDay(notifier.selectedDay, selectedDay)) {
+                if (!isSameDay(calendar.selectedDay, selectedDay)) {
                   setState(() {
-                    notifier.selectedDay = selectedDay;
-                    notifier.focusedDay = focusedDay;
+                    calendar.selectedDay = selectedDay;
+                    calendar.focusedDay = focusedDay;
                   });
                   getEventForDay(selectedDay);
                 }
               },
               onPageChanged: (focusedDay) {
-                notifier.focusedDay = focusedDay;
+                calendar.focusedDay = focusedDay;
               },
 
               // 曜日の日本語対応
@@ -131,7 +113,7 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
                     child: Text(
                       dowText,
                       style: TextStyle(
-                        color: notifier.textColor(day),
+                        color: calendar.textColor(day),
                       ),
                     ),
                   );
@@ -144,7 +126,7 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
                     child: Text(
                       day.day.toString(),
                       style: TextStyle(
-                        color: notifier.textColor(day),
+                        color: calendar.textColor(day),
                       ),
                     ),
                   );
@@ -157,7 +139,7 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
                     child: Text(
                       day.day.toString(),
                       style: TextStyle(
-                        color: notifier.textColor(day),
+                        color: calendar.textColor(day),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -168,7 +150,7 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
             ),
             ListView(
               shrinkWrap: true,
-              children: getEventForDay(notifier.selectedDay!)
+              children: getEventForDay(calendar.selectedDay!)
                   .map((event) => ListTile(
                         title: Text(event.toString()),
                       ))
@@ -181,14 +163,12 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
       // カレンダーのイベント作成用ボタン（あとでカスタマイズ）
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const CalendarAddPage(),
-          //   ),
-          // );
-          print(notifier.focusedDay);
-          print(notifier.selectedDay);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CalendarAddPage(),
+            ),
+          );
         },
         child: const Icon(Icons.add),
       ),

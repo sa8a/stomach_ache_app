@@ -1,76 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Calendar {
-  const Calendar({
-    required this.focusedDay,
-    required this.selectedDay,
-    required this.status,
-    required this.memo,
-  });
-
-  // イミュータブルなクラスのプロパティはすべて `final` にする
-  final DateTime focusedDay;
-  final DateTime selectedDay;
-  final String status;
-  final String memo;
-
-  // Calendar はイミュータブルであり、内容を直接変更できないためコピーを作る必要がある
-  // これはオブジェクトの各プロパティの内容をコピーして新たな Calendar を返すメソッド
-  Calendar copyWith({
-    DateTime? focusedDay,
-    DateTime? selectedDay,
-    String? status,
-    String? memo,
-  }) {
-    return Calendar(
-      focusedDay: focusedDay ?? this.focusedDay,
-      selectedDay: selectedDay ?? this.selectedDay,
-      status: status ?? this.status,
-      memo: memo ?? this.memo,
-    );
-  }
-}
-
-class CalendarNotifier extends StateNotifier<Map<DateTime, List>> {
-  // calendarリストを空のリストとして初期化
-  CalendarNotifier() : super({});
-  // CalendarNotifier() : super({DateTime.now(): []});
-
+class Calendar extends ChangeNotifier {
+  // 状態を定義・保持
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
+  Map<DateTime, List> eventsList = {};
 
-  initState() {
+  // 以下は状態を操作するメソッド
+  // `notifyListeners();` で状態（変数）の変化を通知し、
+  // 変数を使用しているWidgetの再構築が行われる
+
+  void initState() {
     selectedDay = focusedDay;
-
-    //サンプルのイベントリスト
-    // state = {
-    //   DateTime.now().subtract(const Duration(days: 2)): [
-    //     {
-    //       'status': '普通',
-    //       'memo': 'メモが入ります。',
-    //     }
-    //   ],
-    // };
+    eventsList = {
+      DateTime.now().subtract(const Duration(days: 2)): [
+        'Event A6',
+        'Event B6'
+      ],
+      DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
+    };
   }
-
-  void add(Calendar calender) {
-    // スプレッド演算子（「…」）とは、端的に言えばデータにデータを結合する場合に使われるオペレータ
-    // stateというリストにtodoのリストを追加する意味
-    // state = [0, 1, 2]; todo = [3, 4];
-    // state = [0, 1, 2, 3, 4];
-
-    // state = {
-    //   DateTime.now(): [...state, calender]
-    // };
-  }
-
-  // 未使用
-  // DateTime initDay() {
-  //   DateTime focusedDay = DateTime.now();
-  //   DateTime? selectedDay = focusedDay;
-  //   return selectedDay;
-  // }
 
   // DateTime型から20210930の8桁のint型へ変換
   int getHashCode(DateTime key) {
@@ -91,9 +41,4 @@ class CalendarNotifier extends StateNotifier<Map<DateTime, List>> {
   }
 }
 
-// 最後に CalendarNotifier のインスタンスを値に持つ StateNotifierProvider を作成し、
-// UI 側から calendar リストを操作することを可能に。
-final calendarNotifierProvider =
-    StateNotifierProvider<CalendarNotifier, Map<DateTime, List>>((ref) {
-  return CalendarNotifier();
-});
+final calendarProvider = ChangeNotifierProvider((ref) => Calendar());
