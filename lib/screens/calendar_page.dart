@@ -7,13 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stomach_ache_app/model/calendar.dart';
 
 class CalendarPage extends ConsumerStatefulWidget {
-  const CalendarPage({Key? key}) : super(key: key);
+  const CalendarPage({super.key});
 
   @override
-  CalendarPageState createState() => CalendarPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CalendarPageState();
 }
 
-class CalendarPageState extends ConsumerState<CalendarPage> {
+class _CalendarPageState extends ConsumerState<CalendarPage> {
   @override
   void initState() {
     super.initState();
