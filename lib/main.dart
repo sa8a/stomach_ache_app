@@ -23,6 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // 開発中のSlow Modeバナーを非表示にする
+      debugShowCheckedModeBanner: false,
+
       // アプリのテーマカラー
       theme: ThemeData(primarySwatch: Colors.teal),
       home: const HomePage(),
