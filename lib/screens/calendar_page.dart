@@ -17,7 +17,6 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
   @override
   void initState() {
     super.initState();
-    // selectedDay = focusedDay;
   }
 
   @override
@@ -26,6 +25,7 @@ class CalendarPageState extends ConsumerState<CalendarPage> {
     // `Calendar` の状態が更新されると、buildメソッドが再実行され、画面が更新される
     final calendar = ref.watch(calendarProvider);
 
+    // 初期化
     calendar.initState();
 
     // TableCalendarでカレンダーに読み込むイベントをMapで定義した場合、
