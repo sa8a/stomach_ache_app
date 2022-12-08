@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:stomach_ache_app/screens/calender_add_page.dart';
+import 'package:stomach_ache_app/screens/calendar_add_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stomach_ache_app/model/calendar.dart';
 
