@@ -5,30 +5,29 @@ class Calendar {
   const Calendar({
     required this.focusedDay,
     required this.selectedDay,
-    // required this.status,
-    // required this.memo,
+    required this.status,
+    required this.memo,
   });
 
   // イミュータブルなクラスのプロパティはすべて `final` にする
-  // final DateTime focusedDay = DateTime.now();
   final DateTime focusedDay;
   final DateTime selectedDay;
-  // final String status;
-  // final String memo;
+  final String status;
+  final String memo;
 
   // Calendar はイミュータブルであり、内容を直接変更できないためコピーを作る必要がある
   // これはオブジェクトの各プロパティの内容をコピーして新たな Calendar を返すメソッド
   Calendar copyWith({
     DateTime? focusedDay,
     DateTime? selectedDay,
-    // String? status,
-    // String? memo,
+    String? status,
+    String? memo,
   }) {
     return Calendar(
       focusedDay: focusedDay ?? this.focusedDay,
       selectedDay: selectedDay ?? this.selectedDay,
-      // status: status ?? this.status,
-      // memo: memo ?? this.memo,
+      status: status ?? this.status,
+      memo: memo ?? this.memo,
     );
   }
 }
@@ -36,6 +35,35 @@ class Calendar {
 class CalendarNotifier extends StateNotifier<Map<DateTime, List>> {
   // calendarリストを空のリストとして初期化
   CalendarNotifier() : super({});
+  // CalendarNotifier() : super({DateTime.now(): []});
+
+  DateTime focusedDay = DateTime.now();
+  DateTime? selectedDay;
+
+  initState() {
+    selectedDay = focusedDay;
+
+    //サンプルのイベントリスト
+    // state = {
+    //   DateTime.now().subtract(const Duration(days: 2)): [
+    //     {
+    //       'status': '普通',
+    //       'memo': 'メモが入ります。',
+    //     }
+    //   ],
+    // };
+  }
+
+  void add(Calendar calender) {
+    // スプレッド演算子（「…」）とは、端的に言えばデータにデータを結合する場合に使われるオペレータ
+    // stateというリストにtodoのリストを追加する意味
+    // state = [0, 1, 2]; todo = [3, 4];
+    // state = [0, 1, 2, 3, 4];
+
+    // state = {
+    //   DateTime.now(): [...state, calender]
+    // };
+  }
 
   // 未使用
   // DateTime initDay() {
