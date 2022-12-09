@@ -8,7 +8,24 @@ class Calendar extends ChangeNotifier {
   Map<DateTime, List> eventsList = {};
   String memo = '';
   List<bool> toggleList = [false, false, false]; // 「痛み」選択リスト
-  String status = '';
+  String status = ''; // 「痛み」選択したboolをテキストに変換
+
+// 原因の初期リスト
+  List<String> causes = [
+    '緊張',
+    '寒い',
+    '気疲れ',
+    '疲れ',
+    '通勤・通学',
+    'ストレス',
+    '人混み',
+    '空腹',
+    '睡眠不足',
+    '寝過ぎ'
+  ];
+
+  // 選択された原因を格納
+  List<String> selectedCauses = [];
 
   // 以下は状態を操作するメソッド
   // `notifyListeners();` で状態（変数）の変化を通知し、
@@ -42,6 +59,7 @@ class Calendar extends ChangeNotifier {
       selectedDay!: [
         {
           'status': status,
+          'causes': selectedCauses,
           'memo': memo,
         }
       ]
@@ -49,6 +67,7 @@ class Calendar extends ChangeNotifier {
 
     // 値が残るのでリセット
     toggleList = [false, false, false];
+    selectedCauses = [];
     memo = '';
 
     // リスト追加後のリスト確認
@@ -83,6 +102,18 @@ class Calendar extends ChangeNotifier {
     // 選択したトグルをStringにして変数statusに代入
     print(status);
 
+    notifyListeners();
+  }
+
+  // 原因を選択する処理
+  void whichCause(cause, causeSelected) {
+    if (causeSelected) {
+      // すでに選択されていれば取り除く
+      selectedCauses.remove(cause);
+    } else {
+      // 選択されていなければ追加する
+      selectedCauses.add(cause);
+    }
     notifyListeners();
   }
 }

@@ -102,6 +102,58 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
 
             const SizedBox(height: 30),
 
+            // 考えられる原因
+            Row(
+              children: const [
+                Text(
+                  '考えられる原因',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 15),
+
+            Wrap(
+              runSpacing: 10,
+              spacing: 16,
+              children: calendar.causes.map((cause) {
+                // selectedTags の中に自分がいるかを確かめる
+                final causeSelected = calendar.selectedCauses.contains(cause);
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  onTap: () {
+                    calendar.whichCause(cause, causeSelected);
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.teal,
+                      ),
+                      color: causeSelected ? Colors.teal : null,
+                    ),
+                    child: Text(
+                      cause,
+                      style: TextStyle(
+                        color: causeSelected ? Colors.white : Colors.teal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+
+            const SizedBox(height: 30),
+
             // メモ
             const SizedBox(
               width: double.infinity,
