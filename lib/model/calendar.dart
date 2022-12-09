@@ -14,13 +14,6 @@ class Calendar extends ChangeNotifier {
 
   void initState() {
     selectedDay = focusedDay;
-    eventsList = {
-      DateTime.now().subtract(const Duration(days: 2)): [
-        'Event A6',
-        'Event B6'
-      ],
-      // DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-    };
   }
 
   // DateTime型から20210930の8桁のint型へ変換

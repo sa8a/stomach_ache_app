@@ -59,6 +59,10 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                 return isSameDay(calendar.selectedDay, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
+                // 現在保持しているのデータと数を確認
+                print(calendar.eventsList);
+                print(calendar.eventsList.length);
+
                 if (!isSameDay(calendar.selectedDay, selectedDay)) {
                   setState(() {
                     calendar.selectedDay = selectedDay;
