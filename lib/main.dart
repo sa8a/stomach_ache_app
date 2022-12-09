@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/rendering.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = false;
   initializeDateFormatting('ja').then(
     (_) => runApp(
       // riverpod : プロバイダースコープでアプリを囲む
