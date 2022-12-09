@@ -28,6 +28,80 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // 「痛み」を選択
+            Row(
+              children: [
+                const Text(
+                  '痛み',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 40),
+                ToggleButtons(
+                  onPressed: calendar.toggleTap,
+                  borderWidth: 1,
+                  borderColor: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(50.0),
+                  // 状態がONのボタンの文字色と枠の色
+                  selectedColor: Colors.white,
+                  selectedBorderColor: Colors.grey[400],
+                  // 状態がONのボタンの背景色
+                  fillColor: Colors.teal,
+                  // ON/OFFの指定（provider）
+                  isSelected: calendar.toggleList,
+                  // 各ボタン表示の子ウィジェットの指定
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: const [
+                          Icon(Icons.sick),
+                          Text(
+                            'すごく痛い',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        children: const [
+                          Icon(Icons.sentiment_very_dissatisfied),
+                          Text(
+                            '痛い',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        children: const [
+                          Icon(Icons.sentiment_very_satisfied),
+                          Text(
+                            '普通',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 30),
+
             // メモ
             const SizedBox(
               width: double.infinity,
@@ -41,8 +115,9 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
               ),
             ),
 
-            // メモ テキストフィールド
             const SizedBox(height: 15),
+
+            // メモ テキストフィールド
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
