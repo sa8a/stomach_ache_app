@@ -71,7 +71,7 @@ class Calendar extends ChangeNotifier {
     memo = '';
 
     // リスト追加後のリスト確認
-    // print(eventsList);
+    print(eventsList);
 
     notifyListeners();
   }
@@ -115,6 +115,31 @@ class Calendar extends ChangeNotifier {
       selectedCauses.add(cause);
     }
     notifyListeners();
+  }
+
+  // カレンダーに表示されるテキストをアイコンに変更
+  Widget todayStatus(String setStatus) {
+    if (setStatus == 'すごく痛い') {
+      return Icon(
+        Icons.sick,
+        color: Colors.red[300],
+        size: 25,
+      );
+    } else if (setStatus == '痛い') {
+      return Icon(
+        Icons.sentiment_very_dissatisfied,
+        color: Colors.orange[300],
+        size: 25,
+      );
+    } else if (setStatus == '普通') {
+      return Icon(
+        Icons.sentiment_very_satisfied,
+        color: Colors.green[300],
+        size: 25,
+      );
+    } else {
+      return const Text('---');
+    }
   }
 }
 
