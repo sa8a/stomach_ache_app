@@ -48,7 +48,7 @@ class Calendar extends ChangeNotifier {
     memo = '';
 
     // リスト追加後のリスト確認
-    print(eventsList);
+    // print(eventsList);
 
     notifyListeners();
   }
