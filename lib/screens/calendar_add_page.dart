@@ -28,6 +28,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // メモ
             const SizedBox(
               width: double.infinity,
               child: Text(
@@ -39,6 +40,8 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 ),
               ),
             ),
+
+            // メモ テキストフィールド
             const SizedBox(height: 15),
             TextField(
               decoration: const InputDecoration(
@@ -49,7 +52,10 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 // print(calendar.memo);
               },
             ),
+
             const SizedBox(height: 30),
+
+            // 保存ボタン
             SizedBox(
               width: double.infinity,
               height: 50,
