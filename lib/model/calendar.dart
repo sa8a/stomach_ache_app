@@ -88,7 +88,7 @@ class Calendar extends ChangeNotifier {
     }
 
     // トグルボタンのbool状態を確認
-    print(toggleList);
+    // print(toggleList);
 
     // 選択したトグルをStringにする
     if (toggleList[0]) {
@@ -100,7 +100,7 @@ class Calendar extends ChangeNotifier {
     }
 
     // 選択したトグルをStringにして変数statusに代入
-    print(status);
+    // print(status);
 
     notifyListeners();
   }
