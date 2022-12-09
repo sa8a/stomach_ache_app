@@ -6,6 +6,7 @@ class Calendar extends ChangeNotifier {
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
   Map<DateTime, List> eventsList = {};
+  String memo = '';
 
   // 以下は状態を操作するメソッド
   // `notifyListeners();` で状態（変数）の変化を通知し、
@@ -18,7 +19,7 @@ class Calendar extends ChangeNotifier {
         'Event A6',
         'Event B6'
       ],
-      DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
+      // DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
     };
   }
 
@@ -38,6 +39,25 @@ class Calendar extends ChangeNotifier {
       return Colors.blue[600]!;
     }
     return defaultTextColor;
+  }
+
+  void addCalendarEvent() {
+    // カレンダーにイベントを追加
+    eventsList.addAll({
+      selectedDay!: [
+        {
+          'memo': memo,
+        }
+      ]
+    });
+
+    // 値が残るのでリセット
+    memo = '';
+
+    // リスト追加後のリスト確認
+    print(eventsList);
+
+    notifyListeners();
   }
 }
 
