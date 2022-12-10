@@ -150,6 +150,25 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                     ),
                   );
                 },
+
+                // イベントがあるマーカーのスタイル
+                markerBuilder: (context, date, List events) {
+                  if (events.isNotEmpty) {
+                    return Positioned(
+                      right: 5,
+                      bottom: 5,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        width: 20.0,
+                        height: 20.0,
+                        child: Center(
+                          child: calendar.todayStatus(events.last['status']),
+                        ),
+                      ),
+                    );
+                  }
+                  return null;
+                },
               ),
             ),
             ListView(

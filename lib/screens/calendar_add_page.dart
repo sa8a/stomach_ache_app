@@ -28,6 +28,133 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // 「痛み」を選択
+            Row(
+              children: [
+                const Text(
+                  '痛み',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 40),
+                ToggleButtons(
+                  onPressed: calendar.toggleTap,
+                  borderWidth: 1,
+                  borderColor: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(50.0),
+                  // 状態がONのボタンの文字色と枠の色
+                  selectedColor: Colors.white,
+                  selectedBorderColor: Colors.grey[400],
+                  // 状態がONのボタンの背景色
+                  fillColor: Colors.teal,
+                  // ON/OFFの指定（provider）
+                  isSelected: calendar.toggleList,
+                  // 各ボタン表示の子ウィジェットの指定
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: const [
+                          Icon(Icons.sick),
+                          Text(
+                            'すごく痛い',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        children: const [
+                          Icon(Icons.sentiment_very_dissatisfied),
+                          Text(
+                            '痛い',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        children: const [
+                          Icon(Icons.sentiment_very_satisfied),
+                          Text(
+                            '普通',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 30),
+
+            // 考えられる原因
+            Row(
+              children: const [
+                Text(
+                  '考えられる原因',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 15),
+
+            Wrap(
+              runSpacing: 10,
+              spacing: 16,
+              children: calendar.causes.map((cause) {
+                // selectedTags の中に自分がいるかを確かめる
+                final causeSelected = calendar.selectedCauses.contains(cause);
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  onTap: () {
+                    calendar.whichCause(cause, causeSelected);
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.teal,
+                      ),
+                      color: causeSelected ? Colors.teal : null,
+                    ),
+                    child: Text(
+                      cause,
+                      style: TextStyle(
+                        color: causeSelected ? Colors.white : Colors.teal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+
+            const SizedBox(height: 30),
+
+            // メモ
             const SizedBox(
               width: double.infinity,
               child: Text(
@@ -39,7 +166,10 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 ),
               ),
             ),
+
             const SizedBox(height: 15),
+
+            // メモ テキストフィールド
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -49,7 +179,10 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 // print(calendar.memo);
               },
             ),
+
             const SizedBox(height: 30),
+
+            // 保存ボタン
             SizedBox(
               width: double.infinity,
               height: 50,

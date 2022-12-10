@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/rendering.dart';
 
 void main() {
+  // レイアウトのデバッグモード
   debugPaintSizeEnabled = false;
   initializeDateFormatting('ja').then(
     (_) => runApp(
