@@ -152,7 +152,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                 },
 
                 // イベントがあるマーカーのスタイル
-                markerBuilder: (context, date, events) {
+                markerBuilder: (context, date, List events) {
                   if (events.isNotEmpty) {
                     return Positioned(
                       right: 5,
@@ -162,7 +162,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                         width: 20.0,
                         height: 20.0,
                         child: Center(
-                          child: calendar.todayStatus(calendar.status),
+                          child: calendar.todayStatus(events.last['status']),
                         ),
                       ),
                     );
