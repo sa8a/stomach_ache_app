@@ -250,6 +250,17 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
 
 // 日付を選択したときにイベントがあった場合のモーダル
 Widget modalCalenderDetail(Map event) {
+  // `Widget`でriverpodにアクセスするConsumer
+  // 通常のWidgetをラップし(この場合Text)、ラップしたWidget内でProviderでアクセスできるようになる。
+  // StatelessWidgetやStatefulWidgetのWidgetでriverpodを使用したい場合に使用する。
+  // 例
+  // Consumer(
+  //   builder: (context, ref, child) => Text(
+  //     '${ref.watch(_stateProvider).state}',
+  //     style: Theme.of(context).textTheme.headline4,
+  //   ),
+  // )
+
   return Consumer(
     builder: (context, ref, child) => Padding(
       padding: const EdgeInsets.all(30.0),
