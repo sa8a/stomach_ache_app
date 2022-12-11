@@ -116,10 +116,9 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                             ),
                             child: ListView(
                               shrinkWrap: true,
+                              // 日付を選択したときにイベントがあった場合のモーダル
                               children: getEventForDay(calendar.selectedDay!)
-                                  .map((event) => ListTile(
-                                        title: Text(event.toString()),
-                                      ))
+                                  .map((event) => modalCalenderDetail(event))
                                   .toList(),
                             ),
                           );
@@ -248,3 +247,106 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
     );
   }
 }
+
+// 日付を選択したときにイベントがあった場合のモーダル
+Widget modalCalenderDetail(Map event) {
+  return Consumer(
+    builder: (context, ref, child) => Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.blueGrey[900],
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+            child: Text(
+              "${ref.watch(calendarProvider).selectedDay!.month}月${ref.watch(calendarProvider).selectedDay!.day}日",
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          Row(
+            children: [
+              const Text(
+                '痛み',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 40),
+              Text(
+                event['status'],
+                style: const TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Row(
+            children: const [
+              Text(
+                '考えられる原因',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Wrap(
+            runSpacing: 10,
+            spacing: 16,
+            children: event['causes'].map<Widget>((cause) {
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.teal,
+                  ),
+                  color: Colors.teal,
+                ),
+                child: Text(
+                  cause,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 30),
+          const Text(
+            '一言メモ',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            event['memo'],
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+// }
