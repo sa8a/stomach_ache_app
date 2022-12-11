@@ -117,7 +117,8 @@ class Calendar extends ChangeNotifier {
     notifyListeners();
   }
 
-  // カレンダーに表示されるテキストをアイコンに変更
+  // カレンダーの日付に表示されるテキストをアイコンに変更
+  // カレンダーのモーダルに表示されるテキストをアイコンに変更
   Widget todayStatus(String setStatus) {
     if (setStatus == 'すごく痛い') {
       return Icon(

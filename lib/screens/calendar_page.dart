@@ -281,6 +281,8 @@ Widget modalCalenderDetail(Map event) {
                 ),
               ),
               const SizedBox(width: 40),
+              ref.watch(calendarProvider).todayStatus(event['status']),
+              const SizedBox(width: 10),
               Text(
                 event['status'],
                 style: const TextStyle(
