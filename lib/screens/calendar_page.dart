@@ -69,6 +69,63 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                     calendar.focusedDay = focusedDay;
                   });
                   getEventForDay(selectedDay);
+
+                  // 全イベントのキーを表示
+                  // print(calendar.eventsList.keys);
+
+                  // イベントのキーをループ処理（単純な日付比較ができなかったため）
+                  for (DateTime key in calendar.eventsList.keys) {
+                    // 全イベントのキーをループで表示
+                    // print(key);
+
+                    // 全イベントのキーをString型にフォーマット
+                    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+                    String dateKey = outputFormat.format(key);
+                    // print(dateKey);
+
+                    // 選択された日付のイベントのキーを表示
+                    // print(calendar.selectedDay);
+
+                    // 選択した日付の日付のイベントのキーをString型にフォーマット
+                    String dateSelect =
+                        outputFormat.format(calendar.selectedDay!);
+                    // print(dateSelect);
+                    // print(dateSelect == dateKey);
+
+                    // 全イベントのキーと選択したイベントのキーを比較する
+                    // true: 下からモーダルを表示
+                    // false: 何も起こらない（ただ日付を選択した状態になる）
+                    if (dateSelect == dateKey) {
+                      showModalBottomSheet(
+                        //モーダルの背景の色、透過
+                        backgroundColor: Colors.transparent,
+                        //ドラッグ可能にする（高さもハーフサイズからフルサイズになる様子）
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 64),
+                            decoration: const BoxDecoration(
+                              //モーダル自体の色
+                              color: Colors.white,
+                              //角丸にする
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              // 日付を選択したときにイベントがあった場合のモーダル
+                              children: getEventForDay(calendar.selectedDay!)
+                                  .map((event) => modalCalenderDetail(event))
+                                  .toList(),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  }
                 }
               },
               onPageChanged: (focusedDay) {
@@ -171,14 +228,6 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                 },
               ),
             ),
-            ListView(
-              shrinkWrap: true,
-              children: getEventForDay(calendar.selectedDay!)
-                  .map((event) => ListTile(
-                        title: Text(event.toString()),
-                      ))
-                  .toList(),
-            )
           ],
         ),
       ),
@@ -198,3 +247,119 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
     );
   }
 }
+
+// 日付を選択したときにイベントがあった場合のモーダル
+Widget modalCalenderDetail(Map event) {
+  // `Widget`でriverpodにアクセスするConsumer
+  // 通常のWidgetをラップし(この場合Text)、ラップしたWidget内でProviderでアクセスできるようになる。
+  // StatelessWidgetやStatefulWidgetのWidgetでriverpodを使用したい場合に使用する。
+  // 例
+  // Consumer(
+  //   builder: (context, ref, child) => Text(
+  //     '${ref.watch(_stateProvider).state}',
+  //     style: Theme.of(context).textTheme.headline4,
+  //   ),
+  // )
+
+  return Consumer(
+    builder: (context, ref, child) => Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.blueGrey[900],
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+            child: Text(
+              "${ref.watch(calendarProvider).selectedDay!.month}月${ref.watch(calendarProvider).selectedDay!.day}日",
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          Row(
+            children: [
+              const Text(
+                '痛み',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 40),
+              ref.watch(calendarProvider).todayStatus(event['status']),
+              const SizedBox(width: 10),
+              Text(
+                event['status'],
+                style: const TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Row(
+            children: const [
+              Text(
+                '考えられる原因',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Wrap(
+            runSpacing: 10,
+            spacing: 16,
+            children: event['causes'].map<Widget>((cause) {
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.teal,
+                  ),
+                  color: Colors.teal,
+                ),
+                child: Text(
+                  cause,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 30),
+          const Text(
+            '一言メモ',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            event['memo'],
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+// }
