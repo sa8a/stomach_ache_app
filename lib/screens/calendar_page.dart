@@ -69,6 +69,61 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                     calendar.focusedDay = focusedDay;
                   });
                   getEventForDay(selectedDay);
+
+                  // 全イベントのキーを表示
+                  // print(calendar.eventsList.keys);
+
+                  // イベントのキーをループ処理（単純な日付比較ができなかったため）
+                  for (DateTime key in calendar.eventsList.keys) {
+                    // 全イベントのキーをループで表示
+                    // print(key);
+
+                    // 全イベントのキーをString型にフォーマット
+                    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+                    String dateKey = outputFormat.format(key);
+                    // print(dateKey);
+
+                    // 選択された日付のイベントのキーを表示
+                    // print(calendar.selectedDay);
+
+                    // 選択した日付の日付のイベントのキーをString型にフォーマット
+                    String dateSelect =
+                        outputFormat.format(calendar.selectedDay!);
+                    // print(dateSelect);
+                    // print(dateSelect == dateKey);
+
+                    // 全イベントのキーと選択したイベントのキーを比較する
+                    // true: 下からモーダルを表示
+                    // false: 何も起こらない（ただ日付を選択した状態になる）
+                    if (dateSelect == dateKey) {
+                      showModalBottomSheet(
+                        //モーダルの背景の色、透過
+                        backgroundColor: Colors.transparent,
+                        //ドラッグ可能にする（高さもハーフサイズからフルサイズになる様子）
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 64),
+                            decoration: const BoxDecoration(
+                              //モーダル自体の色
+                              color: Colors.white,
+                              //角丸にする
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.all(50),
+                              children: [Text('モーダルテスト')],
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  }
                 }
               },
               onPageChanged: (focusedDay) {
