@@ -116,8 +116,11 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                             ),
                             child: ListView(
                               shrinkWrap: true,
-                              padding: EdgeInsets.all(50),
-                              children: [Text('モーダルテスト')],
+                              children: getEventForDay(calendar.selectedDay!)
+                                  .map((event) => ListTile(
+                                        title: Text(event.toString()),
+                                      ))
+                                  .toList(),
                             ),
                           );
                         },
@@ -226,14 +229,6 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                 },
               ),
             ),
-            ListView(
-              shrinkWrap: true,
-              children: getEventForDay(calendar.selectedDay!)
-                  .map((event) => ListTile(
-                        title: Text(event.toString()),
-                      ))
-                  .toList(),
-            )
           ],
         ),
       ),
