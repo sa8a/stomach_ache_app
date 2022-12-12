@@ -30,6 +30,6 @@ flutter_icons:
   image_path: "assets/images/icon.png"
 
 flutter_native_splash:
-  image: "assets/splash.png"
+  image: "assets/images/splash.png"
   color: "#008080"
   fullscreen: true
