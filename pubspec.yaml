@@ -10,6 +10,7 @@ dependencies:
   flutter_riverpod: ^2.1.1
   share_plus: ^6.3.0
   flutter_launcher_icons: ^0.11.0
+  flutter_native_splash: ^2.2.16
 
   flutter:
     sdk: flutter
@@ -27,3 +28,8 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/icon.png"
+
+flutter_native_splash:
+  image: "assets/images/splash.png"
+  color: "#008080"
+  fullscreen: true
