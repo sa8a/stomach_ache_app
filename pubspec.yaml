@@ -28,3 +28,8 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/icon.png"
+
+flutter_native_splash:
+  image: "assets/splash.png"
+  color: "#008080"
+  fullscreen: true
