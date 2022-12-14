@@ -206,6 +206,14 @@ class Calendar extends ChangeNotifier {
       return const Text('---');
     }
   }
+
+  // `getInstance()`は`Future型`を返すため、`async`, `await`をつける
+  void deleteCalendarEvent() async {
+    // 必須：SharedPreferencesオブジェクトの取得
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // 保存されているデータを削除
+    prefs.remove(key);
+  }
 }
 
 // ChangeNotifierProviderを定義
