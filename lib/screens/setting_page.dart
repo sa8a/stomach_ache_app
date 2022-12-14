@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:stomach_ache_app/model/calendar.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends ConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final calendar = ref.watch(calendarProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
@@ -25,7 +29,9 @@ class SettingPage extends StatelessWidget {
               leading: const Icon(Icons.delete),
               title: const Text('カレンダーのデータを削除する'),
               trailing: const Icon(Icons.keyboard_arrow_right_rounded),
-              onTap: () {},
+              onTap: () {
+                calendar.deleteCalendarEvent();
+              },
             ),
           ],
         ),
