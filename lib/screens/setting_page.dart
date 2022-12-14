@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:stomach_ache_app/model/calendar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -65,6 +66,7 @@ class DeleteAlertDialog extends StatelessWidget {
             onPressed: () {
               ref.watch(calendarProvider).deleteCalendarEvent();
               Navigator.pop(context);
+              Fluttertoast.showToast(msg: '削除が完了しました');
             },
           )
         ],
