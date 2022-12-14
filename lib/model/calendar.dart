@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class Calendar extends ChangeNotifier {
+  // SharedPreferencesの`key`（キー）を設定
+  final key = "event_key";
+
   // 状態を定義・保持
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
   Map<DateTime, List> eventsList = {};
+  String eventListEncode = '';
+  Map<DateTime, List<dynamic>> eventListDecode = {};
   String memo = '';
   List<bool> toggleList = [false, false, false]; // 「痛み」選択リスト
   String status = ''; // 「痛み」選択したboolをテキストに変換
@@ -31,8 +38,40 @@ class Calendar extends ChangeNotifier {
   // `notifyListeners();` で状態（変数）の変化を通知し、
   // 変数を使用しているWidgetの再構築が行われる
 
-  void initState() {
+  // `getInstance()`は`Future型`を返すため、`async`, `await`をつける
+  void initState() async {
     selectedDay = focusedDay;
+
+    // SharedPreferencesオブジェクトの取得
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // 端末に保存されているエンコードしたイベントを取得。
+    // なければ「No Data」(null)とする
+    eventListEncode = prefs.getString(key) ?? 'No Data';
+
+    // 保存したデータは`String型`のため`Map型`にデコード
+    // デコード汎用関数（Map<String, dynamic>→Map<DateTime, dynamic>）
+    Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map) {
+      Map<DateTime, dynamic> newMap = {};
+      map.forEach((key, value) {
+        newMap[DateTime.parse(key)] = map[key];
+      });
+      return newMap;
+    }
+
+    // `json.decode`で`String型`を`Map型`に変換
+    eventListDecode = Map<DateTime, List<dynamic>>.from(
+      decodeMap(
+        json.decode(eventListEncode),
+      ),
+    );
+
+    // デコード確認用
+    // print(eventListDecode.runtimeType);
+    // print(eventListDecode);
+
+    // イベントリストにデコードしたデータを再代入
+    eventsList = eventListDecode;
   }
 
   // DateTime型から20210930の8桁のint型へ変換
@@ -53,7 +92,11 @@ class Calendar extends ChangeNotifier {
     return defaultTextColor;
   }
 
-  void addCalendarEvent() {
+  // `getInstance()`は`Future型`を返すため、`async`, `await`をつける
+  void addCalendarEvent() async {
+    // 必須：SharedPreferencesオブジェクトの取得
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     // カレンダーにイベントを追加
     eventsList.addAll({
       selectedDay!: [
@@ -65,13 +108,34 @@ class Calendar extends ChangeNotifier {
       ]
     });
 
+    // `setStringList` が `Map型`に対応していないため
+    // `Map`=>`String`にエンコードして`String型`として保存
+    // エンコード汎用関数（Map<DateTime, dynamic>→Map<String, dynamic>）
+    Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map) {
+      Map<String, dynamic> newMap = {};
+      map.forEach((key, value) {
+        newMap[key.toString()] = map[key];
+      });
+      return newMap;
+    }
+
+    // json.encodeでMapをStringへ
+    String eventListEncode = json.encode(encodeMap(eventsList));
+
+    // エンコード確認
+    // print(eventListEncode.runtimeType);
+    // print(eventListEncode);
+
+    // SharedPreferencesで端末に保存
+    prefs.setString(key, eventListEncode);
+
     // 値が残るのでリセット
     toggleList = [false, false, false];
     selectedCauses = [];
     memo = '';
 
     // リスト追加後のリスト確認
-    print(eventsList);
+    // print(eventsList);
 
     notifyListeners();
   }
