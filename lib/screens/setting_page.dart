@@ -21,6 +21,12 @@ class SettingPage extends StatelessWidget {
                 Share.share('共有');
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('カレンダーのデータを削除する'),
+              trailing: const Icon(Icons.keyboard_arrow_right_rounded),
+              onTap: () {},
+            ),
           ],
         ),
       ),
