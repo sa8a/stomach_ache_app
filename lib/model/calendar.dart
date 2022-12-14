@@ -211,7 +211,8 @@ class Calendar extends ChangeNotifier {
   void deleteCalendarEvent() async {
     // 必須：SharedPreferencesオブジェクトの取得
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 保存されているデータを削除
+    // `eventsList` の初期化と保存されているデータを削除
+    eventsList = {};
     prefs.remove(key);
   }
 }
