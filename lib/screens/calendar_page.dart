@@ -286,7 +286,14 @@ Widget modalCalenderDetail(Map event) {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CalendarAddPage(),
+                    ),
+                  );
+                },
                 child: const Text('編集'),
               )
             ],
