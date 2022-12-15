@@ -267,19 +267,29 @@ Widget modalCalenderDetail(Map event) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.blueGrey[900],
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-            child: Text(
-              "${ref.watch(calendarProvider).selectedDay!.month}月${ref.watch(calendarProvider).selectedDay!.day}日",
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.white,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.blueGrey[900],
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                child: Text(
+                  "${ref.watch(calendarProvider).selectedDay!.month}月${ref.watch(calendarProvider).selectedDay!.day}日",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('編集'),
+              )
+            ],
           ),
           const SizedBox(height: 30),
           Row(
