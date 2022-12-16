@@ -32,6 +32,15 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // printで値を確認する用
+            ElevatedButton(
+              onPressed: () {
+                print(calendar.judgePost);
+              },
+              child: const Text('print'),
+            ),
+            const SizedBox(height: 30),
+
             // 「痛み」を選択
             Row(
               children: [
