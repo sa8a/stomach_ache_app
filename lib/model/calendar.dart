@@ -219,8 +219,8 @@ class Calendar extends ChangeNotifier {
 
   void judgePostStatus() {
     // 選択した日付がイベントリストの中に含まれているかを判定
-    print(selectedDay);
-    print(eventsList.containsKey(selectedDay));
+    // print(selectedDay);
+    // print(eventsList.containsKey(selectedDay));
 
     // true or false を再代入
     judgePost = eventsList.containsKey(selectedDay);
