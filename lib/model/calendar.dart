@@ -16,6 +16,7 @@ class Calendar extends ChangeNotifier {
   String memo = '';
   List<bool> toggleList = [false, false, false]; // 「痛み」選択リスト
   String status = ''; // 「痛み」選択したboolをテキストに変換
+  bool judgePost = false; // イベントが新規作成なのか編集なのかを判定するための変数
 
 // 原因の初期リスト
   List<String> causes = [
@@ -214,6 +215,15 @@ class Calendar extends ChangeNotifier {
     // `eventsList` の初期化と保存されているデータを削除
     eventsList = {};
     prefs.remove(key);
+  }
+
+  void judgePostStatus() {
+    // 選択した日付がイベントリストの中に含まれているかを判定
+    print(selectedDay);
+    print(eventsList.containsKey(selectedDay));
+
+    // true or false を再代入
+    judgePost = eventsList.containsKey(selectedDay);
   }
 }
 
