@@ -34,12 +34,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
           children: [
             // printで値を確認する用
             ElevatedButton(
-              onPressed: () {
-                // 選択された日付のイベント
-                print(calendar.eventsList[calendar.selectedDay]!
-                    .first['toggleList'].runtimeType);
-                print(calendar.toggleList.runtimeType);
-              },
+              onPressed: () {},
               child: const Text('print'),
             ),
             const SizedBox(height: 30),
