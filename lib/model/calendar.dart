@@ -103,6 +103,7 @@ class Calendar extends ChangeNotifier {
       selectedDay!: [
         {
           'status': status,
+          'toggleList': toggleList,
           'causes': selectedCauses,
           'memo': memo,
         }
