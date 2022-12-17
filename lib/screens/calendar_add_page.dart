@@ -36,9 +36,9 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
             ElevatedButton(
               onPressed: () {
                 // 選択された日付のイベント
-                print(calendar.eventsList[calendar.selectedDay]);
-                print(
-                    calendar.eventsList[calendar.selectedDay]!.first['status']);
+                print(calendar.eventsList[calendar.selectedDay]!
+                    .first['toggleList'].runtimeType);
+                print(calendar.toggleList.runtimeType);
               },
               child: const Text('print'),
             ),
@@ -66,7 +66,10 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                   // 状態がONのボタンの背景色
                   fillColor: Colors.teal,
                   // ON/OFFの指定（provider）
-                  isSelected: calendar.toggleList,
+                  isSelected: calendar.judgePost
+                      ? calendar
+                          .eventsList[calendar.selectedDay]!.first['toggleList']
+                      : calendar.toggleList,
                   // 各ボタン表示の子ウィジェットの指定
                   children: [
                     Padding(
