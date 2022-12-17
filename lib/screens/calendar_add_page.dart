@@ -67,8 +67,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                   fillColor: Colors.teal,
                   // ON/OFFの指定（provider）
                   isSelected: calendar.judgePost
-                      ? calendar
-                          .eventsList[calendar.selectedDay]!.first['toggleList']
+                      ? calendar.editBoolToggleList()
                       : calendar.toggleList,
                   // 各ボタン表示の子ウィジェットの指定
                   children: [

@@ -218,6 +218,7 @@ class Calendar extends ChangeNotifier {
     prefs.remove(key);
   }
 
+  // 新規作成なのか編集なのかを判定
   void judgePostStatus() {
     // 選択した日付がイベントリストの中に含まれているかを判定
     // print(selectedDay);
@@ -225,6 +226,30 @@ class Calendar extends ChangeNotifier {
 
     // true or false を再代入
     judgePost = eventsList.containsKey(selectedDay);
+  }
+
+  // 編集画面の時に、選択した日付のすでに存在しているbool配列を画面に表示したかったが、型違いのエラーため、別途処理
+  List<bool> editBoolToggleList() {
+    // 現在の`toggleList`の値と型を確認
+    print(eventsList[selectedDay]!.first['toggleList']);
+    print(eventsList[selectedDay]!.first['toggleList'].runtimeType);
+
+    bool toggleItemZero = eventsList[selectedDay]!.first['toggleList'][0];
+    bool toggleItemOne = eventsList[selectedDay]!.first['toggleList'][1];
+    bool toggleItemTwo = eventsList[selectedDay]!.first['toggleList'][2];
+
+    // `List<bool>型`として新しく変数を作成
+    List<bool> editBoolToggleList = [
+      toggleItemZero,
+      toggleItemOne,
+      toggleItemTwo
+    ];
+
+    // 変換後の`toggleList`の値と型を確認
+    print(editBoolToggleList);
+    print(editBoolToggleList.runtimeType);
+
+    return editBoolToggleList;
   }
 }
 
