@@ -183,7 +183,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
             const SizedBox(height: 15),
 
             // メモ テキストフィールド
-            TextField(
+            TextFormField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
@@ -191,6 +191,9 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 calendar.memo = text;
                 // print(calendar.memo);
               },
+              initialValue: calendar.judgePost
+                  ? calendar.eventsList[calendar.selectedDay]!.first['memo']
+                  : '',
             ),
 
             const SizedBox(height: 30),
