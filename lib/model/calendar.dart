@@ -231,8 +231,8 @@ class Calendar extends ChangeNotifier {
   // 編集画面の時に、選択した日付のすでに存在しているbool配列を画面に表示したかったが、型違いのエラーため、別途処理
   List<bool> editBoolToggleList() {
     // 現在の`toggleList`の値と型を確認
-    print(eventsList[selectedDay]!.first['toggleList']);
-    print(eventsList[selectedDay]!.first['toggleList'].runtimeType);
+    // print(eventsList[selectedDay]!.first['toggleList']);
+    // print(eventsList[selectedDay]!.first['toggleList'].runtimeType);
 
     bool toggleItemZero = eventsList[selectedDay]!.first['toggleList'][0];
     bool toggleItemOne = eventsList[selectedDay]!.first['toggleList'][1];
@@ -246,8 +246,8 @@ class Calendar extends ChangeNotifier {
     ];
 
     // 変換後の`toggleList`の値と型を確認
-    print(editBoolToggleList);
-    print(editBoolToggleList.runtimeType);
+    // print(editBoolToggleList);
+    // print(editBoolToggleList.runtimeType);
 
     return editBoolToggleList;
   }
