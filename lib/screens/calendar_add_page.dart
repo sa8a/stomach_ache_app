@@ -34,7 +34,28 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
           children: [
             // printで値を確認する用
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // 選択された日付の原因をprint
+                print(
+                    calendar.eventsList[calendar.selectedDay]!.first['causes']);
+                // 選択された日付の原因の型をprint
+                print(calendar.eventsList[calendar.selectedDay]!.first['causes']
+                    .runtimeType);
+
+                // 原因とその型をprint
+                print(calendar.selectedCauses);
+                print(calendar.selectedCauses.runtimeType);
+
+                // List<dynamic>とList<String>で型が異なるため、List<String>に直す
+                List<String> editStringCausesList = [];
+                calendar.eventsList[calendar.selectedDay]!.first['causes']
+                    .forEach((cause) {
+                  editStringCausesList.add(cause);
+                  print(cause);
+                });
+                print(editStringCausesList);
+                print(editStringCausesList.runtimeType);
+              },
               child: const Text('print'),
             ),
             const SizedBox(height: 30),
@@ -135,7 +156,10 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
               spacing: 16,
               children: calendar.causes.map((cause) {
                 // selectedTags の中に自分がいるかを確かめる
-                final causeSelected = calendar.selectedCauses.contains(cause);
+                final causeSelected = calendar.judgePost
+                    ? calendar.editStringCausesList().contains(cause)
+                    : calendar.selectedCauses.contains(cause);
+                // final causeSelected = calendar.selectedCauses.contains(cause);
                 return InkWell(
                   borderRadius: const BorderRadius.all(Radius.circular(32)),
                   onTap: () {

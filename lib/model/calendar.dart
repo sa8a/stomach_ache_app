@@ -251,6 +251,21 @@ class Calendar extends ChangeNotifier {
 
     return editBoolToggleList;
   }
+
+  // 編集画面の時に、選択した日付のすでに存在しているstring配列を画面に表示したかったが、型違いのエラーため、別途処理
+  List<String> editStringCausesList() {
+    List<String> editStringCausesList = [];
+
+    eventsList[selectedDay]!.first['causes'].forEach((cause) {
+      editStringCausesList.add(cause);
+      print(cause);
+    });
+
+    print(editStringCausesList);
+    print(editStringCausesList.runtimeType);
+
+    return editStringCausesList;
+  }
 }
 
 // ChangeNotifierProviderを定義
