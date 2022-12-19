@@ -17,17 +17,28 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
     // `Calendar` の状態が更新されると、buildメソッドが再実行され、画面が更新される
     final calendar = ref.watch(calendarProvider);
 
+    // 選択した日付がイベントリストの中に含まれているかを判定
+    calendar.judgePostStatus();
+
     return Scaffold(
       appBar: AppBar(
         // 選択した日付のテキストを表示
         title: Text(
-            "${calendar.selectedDay!.year}年 ${calendar.selectedDay!.month}月 ${calendar.selectedDay!.day}日"),
+            // 三項演算子：「新規作成」「編集」どちらを表示するか分ける処理
+            "${calendar.selectedDay!.year}年 ${calendar.selectedDay!.month}月 ${calendar.selectedDay!.day}日 ${(calendar.judgePost) ? '編集' : '新規作成'}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // printで値を確認する用
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('print'),
+            ),
+            const SizedBox(height: 30),
+
             // 「痛み」を選択
             Row(
               children: [
@@ -50,7 +61,9 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                   // 状態がONのボタンの背景色
                   fillColor: Colors.teal,
                   // ON/OFFの指定（provider）
-                  isSelected: calendar.toggleList,
+                  isSelected: calendar.judgePost
+                      ? calendar.editBoolToggleList()
+                      : calendar.toggleList,
                   // 各ボタン表示の子ウィジェットの指定
                   children: [
                     Padding(
@@ -122,7 +135,10 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
               spacing: 16,
               children: calendar.causes.map((cause) {
                 // selectedTags の中に自分がいるかを確かめる
-                final causeSelected = calendar.selectedCauses.contains(cause);
+                final causeSelected = calendar.judgePost
+                    ? calendar.editStringCausesList().contains(cause)
+                    : calendar.selectedCauses.contains(cause);
+                // final causeSelected = calendar.selectedCauses.contains(cause);
                 return InkWell(
                   borderRadius: const BorderRadius.all(Radius.circular(32)),
                   onTap: () {
@@ -170,7 +186,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
             const SizedBox(height: 15),
 
             // メモ テキストフィールド
-            TextField(
+            TextFormField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
@@ -178,6 +194,9 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 calendar.memo = text;
                 // print(calendar.memo);
               },
+              initialValue: calendar.judgePost
+                  ? calendar.eventsList[calendar.selectedDay]!.first['memo']
+                  : '',
             ),
 
             const SizedBox(height: 30),
