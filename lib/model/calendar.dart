@@ -258,11 +258,11 @@ class Calendar extends ChangeNotifier {
 
     eventsList[selectedDay]!.first['causes'].forEach((cause) {
       editStringCausesList.add(cause);
-      print(cause);
+      // print(cause);
     });
 
-    print(editStringCausesList);
-    print(editStringCausesList.runtimeType);
+    // print(editStringCausesList);
+    // print(editStringCausesList.runtimeType);
 
     return editStringCausesList;
   }
