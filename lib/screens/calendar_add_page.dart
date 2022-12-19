@@ -34,28 +34,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
           children: [
             // printで値を確認する用
             ElevatedButton(
-              onPressed: () {
-                // 選択された日付の原因をprint
-                print(
-                    calendar.eventsList[calendar.selectedDay]!.first['causes']);
-                // 選択された日付の原因の型をprint
-                print(calendar.eventsList[calendar.selectedDay]!.first['causes']
-                    .runtimeType);
-
-                // 原因とその型をprint
-                print(calendar.selectedCauses);
-                print(calendar.selectedCauses.runtimeType);
-
-                // List<dynamic>とList<String>で型が異なるため、List<String>に直す
-                List<String> editStringCausesList = [];
-                calendar.eventsList[calendar.selectedDay]!.first['causes']
-                    .forEach((cause) {
-                  editStringCausesList.add(cause);
-                  print(cause);
-                });
-                print(editStringCausesList);
-                print(editStringCausesList.runtimeType);
-              },
+              onPressed: () {},
               child: const Text('print'),
             ),
             const SizedBox(height: 30),
