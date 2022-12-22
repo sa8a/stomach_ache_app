@@ -290,11 +290,11 @@ Widget modalCalenderDetail(Map event) {
                   // 編集画面時には、その日付の「痛み」を表示さえるためのデータ渡し
                   ref.watch(calendarProvider).toggleList =
                       ref.watch(calendarProvider).editBoolToggleList();
-                  print(ref.watch(calendarProvider).toggleList);
+                  // print(ref.watch(calendarProvider).toggleList);
                   // 編集画面時には、その日付の「原因」を表示させるためのデータ渡し
                   ref.watch(calendarProvider).selectedCauses =
                       ref.watch(calendarProvider).editStringCausesList();
-                  print(ref.watch(calendarProvider).selectedCauses);
+                  // print(ref.watch(calendarProvider).selectedCauses);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
