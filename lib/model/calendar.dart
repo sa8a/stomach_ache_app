@@ -134,7 +134,6 @@ class Calendar extends ChangeNotifier {
     // 値が残るのでリセット
     toggleList = [false, false, false];
     selectedCauses = [];
-    memo = '';
 
     // リスト追加後のリスト確認
     // print(eventsList);

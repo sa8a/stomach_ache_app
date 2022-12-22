@@ -51,7 +51,9 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                 ),
                 const SizedBox(width: 40),
                 ToggleButtons(
-                  onPressed: calendar.toggleTap,
+                  onPressed: (index) {
+                    calendar.toggleTap(index);
+                  },
                   borderWidth: 1,
                   borderColor: Colors.grey[400],
                   borderRadius: BorderRadius.circular(50.0),
@@ -62,7 +64,7 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
                   fillColor: Colors.teal,
                   // ON/OFFの指定（provider）
                   isSelected: calendar.judgePost
-                      ? calendar.editBoolToggleList()
+                      ? calendar.toggleList
                       : calendar.toggleList,
                   // 各ボタン表示の子ウィジェットの指定
                   children: [

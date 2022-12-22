@@ -287,6 +287,10 @@ Widget modalCalenderDetail(Map event) {
               ),
               ElevatedButton(
                 onPressed: () {
+                  // 編集画面時には、その日付の「痛み」を表示さえるためのデータ渡し
+                  ref.watch(calendarProvider).toggleList =
+                      ref.watch(calendarProvider).editBoolToggleList();
+                  print(ref.watch(calendarProvider).toggleList);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
