@@ -138,9 +138,8 @@ class _CalendarAddPageState extends ConsumerState<CalendarAddPage> {
               children: calendar.causes.map((cause) {
                 // selectedTags の中に自分がいるかを確かめる
                 final causeSelected = calendar.judgePost
-                    ? calendar.editStringCausesList().contains(cause)
+                    ? calendar.selectedCauses.contains(cause)
                     : calendar.selectedCauses.contains(cause);
-                // final causeSelected = calendar.selectedCauses.contains(cause);
                 return InkWell(
                   borderRadius: const BorderRadius.all(Radius.circular(32)),
                   onTap: () {
