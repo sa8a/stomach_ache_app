@@ -5,6 +5,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:stomach_ache_app/screens/calendar_add_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stomach_ache_app/model/calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class CalendarPage extends ConsumerStatefulWidget {
   const CalendarPage({super.key});
@@ -14,9 +16,36 @@ class CalendarPage extends ConsumerStatefulWidget {
 }
 
 class _CalendarPageState extends ConsumerState<CalendarPage> {
+  _readCalendar() async {
+    // デーコードの説明は`calendar.dart`に記載
+    const key = "event_key";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<DateTime, List<dynamic>> eventListDecode = {};
+    String eventListEncode = '';
+    setState(() {
+      eventListEncode = prefs.getString(key) ?? 'No Data';
+      Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map) {
+        Map<DateTime, dynamic> newMap = {};
+        map.forEach((key, value) {
+          newMap[DateTime.parse(key)] = map[key];
+        });
+        return newMap;
+      }
+
+      eventListDecode = Map<DateTime, List<dynamic>>.from(
+        decodeMap(
+          json.decode(eventListEncode),
+        ),
+      );
+      ref.watch(calendarProvider).eventsList = eventListDecode;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    // 起動直後にSharedPreferencesのデータを反映させる
+    _readCalendar();
   }
 
   @override
