@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:stomach_ache_app/screens/calendar_page.dart';
 import 'package:stomach_ache_app/screens/setting_page.dart';
+import 'package:stomach_ache_app/screens/chart_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/rendering.dart';
 
@@ -44,6 +45,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const _screens = [
     CalendarPage(),
+    ChartPage(),
     SettingPage(),
   ];
 
@@ -66,6 +68,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_outlined),
             label: 'カレンダー',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'グラフ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
