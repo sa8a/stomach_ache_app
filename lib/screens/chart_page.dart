@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stomach_ache_app/model/calendar.dart';
 
-class ChartPage extends StatelessWidget {
+class ChartPage extends ConsumerWidget {
   const ChartPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Providerを読み取る。watchを使用しているので、
+    // `Calendar` の状態が更新されると、buildメソッドが再実行され、画面が更新される
+    final calendar = ref.watch(calendarProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('グラフ'),
