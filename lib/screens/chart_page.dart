@@ -27,11 +27,11 @@ class ChartPage extends ConsumerWidget {
             sections: [
               PieChartSectionData(
                 borderSide: const BorderSide(color: Colors.black, width: 0),
-                color: Colors.red,
+                color: Colors.green,
                 value: 2 / 24 * 100,
                 titlePositionPercentageOffset: 0.5,
-                title: "サンプル\nサンプル",
-                titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                title: "普通",
+                titleStyle: const TextStyle(fontSize: 18, color: Colors.white),
                 radius: 120,
               ),
             ],
