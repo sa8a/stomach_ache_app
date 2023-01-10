@@ -28,9 +28,27 @@ class ChartPage extends ConsumerWidget {
               PieChartSectionData(
                 borderSide: const BorderSide(color: Colors.black, width: 0),
                 color: Colors.green,
-                value: 2 / 24 * 100,
+                value: 3 / calendar.eventsList.length * 100,
                 titlePositionPercentageOffset: 0.5,
                 title: "普通",
+                titleStyle: const TextStyle(fontSize: 18, color: Colors.white),
+                radius: 120,
+              ),
+              PieChartSectionData(
+                borderSide: const BorderSide(color: Colors.black, width: 0),
+                color: Colors.red,
+                value: 2 / calendar.eventsList.length * 100,
+                titlePositionPercentageOffset: 0.5,
+                title: "すごく痛い",
+                titleStyle: const TextStyle(fontSize: 18, color: Colors.white),
+                radius: 120,
+              ),
+              PieChartSectionData(
+                borderSide: const BorderSide(color: Colors.black, width: 0),
+                color: Colors.orange,
+                value: 2 / calendar.eventsList.length * 100,
+                titlePositionPercentageOffset: 0.5,
+                title: "痛い",
                 titleStyle: const TextStyle(fontSize: 18, color: Colors.white),
                 radius: 120,
               ),
@@ -41,10 +59,9 @@ class ChartPage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          // 1. 月の日付数を算出する
-          // 2. 痛みの種類別に数を算出する
-
-          print(calendar.eventsList);
+          // まずは全体のデータをグラフにする
+          print(calendar.eventsList.length);
+          print('Finish!');
         },
       ),
     );
