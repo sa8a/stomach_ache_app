@@ -41,6 +41,9 @@ class ChartPage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
+          // 1. 月の日付数を算出する
+          // 2. 痛みの種類別に数を算出する
+
           print(calendar.eventsList);
         },
       ),
