@@ -38,6 +38,12 @@ class ChartPage extends ConsumerWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          print(calendar.eventsList);
+        },
+      ),
     );
   }
 }
